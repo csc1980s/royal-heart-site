@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quest for the Royal Heart</title>
+<meta name="description" content="A 16-bit platformer set inside a deck of cards: slash, craft and draw poker hands from fallen foes to rescue the Queen of Hearts from the Joker. Wishlist on Steam.">
+<!-- Social previews (Discord, X, Bluesky, Reddit): the image shows up when the link is shared -->
+<meta property="og:title" content="Quest for the Royal Heart">
+<meta property="og:description" content="A 16-bit platformer set inside a deck of cards. Coming to Steam.">
+<meta property="og:image" content="img/shot-joker.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  /* =============================================================================================
+     EDIT THESE THREE LINKS when they exist (search for "TODO"):
+       Steam store page · Discord invite · press contact email
+     Everything else works as is. Hosted free on GitHub Pages (see README.md next to this file).
+     ============================================================================================= */
+  @font-face { font-family: 'Press Start 2P'; src: url('PressStart2P-Regular.woff2') format('woff2'); font-display: swap; }
+  :root {
+    --bg: #0d0716; --bg2: #160c24; --panel: #1f1233; --line: #3a2456;
+    --text: #efe6ff; --muted: #b9a8d6; --heart: #ff3a5a; --gold: #f2c440; --violet: #b070ff; --green: #3ab040;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  a { color: var(--gold); }
+  .pixel { font-family: 'Press Start 2P', monospace; letter-spacing: 0.02em; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- hero */
+  .hero { position: relative; min-height: 92vh; display: grid; place-items: center; text-align: center; overflow: hidden;
+    background: linear-gradient(180deg, rgba(13,7,22,0.55) 0%, rgba(13,7,22,0.25) 40%, rgba(13,7,22,0.95) 100%), url('img/title_vista.png') center/cover no-repeat;
+    image-rendering: auto; }
+  .hero .over { font-size: clamp(11px, 1.6vw, 15px); color: var(--gold); text-shadow: 2px 2px 0 #3a0a18; }
+  body { overflow-x: hidden; }
+  .hero h1 { margin: 14px 0 0; font-size: clamp(22px, 5.6vw, 64px); line-height: 1.1; color: var(--heart); text-shadow: 4px 4px 0 #3a0a18, 0 0 30px rgba(255,58,90,0.35); }
+  .hero p.hook { max-width: 760px; margin: 26px auto 0; font-size: clamp(17px, 2.2vw, 22px); color: #fff; text-shadow: 0 2px 8px #000; }
+  .cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 16px;
+    border: 2px solid transparent; transition: transform .12s, box-shadow .12s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn.steam { background: linear-gradient(180deg, #ff4f6c, #c81e3a); color: #fff; box-shadow: 0 6px 0 #6e0f22, 0 10px 24px rgba(255,58,90,0.35); }
+  .btn.ghost { background: rgba(13,7,22,0.6); color: var(--text); border-color: var(--line); }
+  .btn.ghost:hover { border-color: var(--violet); }
+  .suits { position: absolute; bottom: 18px; left: 0; right: 0; text-align: center; color: var(--muted); font-size: 22px; letter-spacing: 14px; opacity: .8; }
+
+  /* ---------- sections */
+  section { padding: 84px 0; }
+  section:nth-of-type(even) { background: var(--bg2); }
+  h2 { font-size: clamp(16px, 2.6vw, 24px); color: var(--gold); margin: 0 0 28px; text-align: center; }
+  .lead { text-align: center; color: var(--muted); max-width: 720px; margin: -10px auto 34px; }
+
+  .video { position: relative; border: 3px solid var(--line); border-radius: 10px; overflow: hidden; background: #000; aspect-ratio: 16/9; }
+  .video video { width: 100%; height: 100%; display: block; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+  .card { background: var(--panel); border: 2px solid var(--line); border-radius: 12px; padding: 22px; position: relative; }
+  .card .suit { position: absolute; top: 12px; right: 16px; font-size: 26px; }
+  .card h3 { margin: 0 0 10px; font-size: 13px; line-height: 1.6; color: #fff; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+  .shots a { display: block; border: 2px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .shots img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; transition: transform .25s; }
+  .shots a:hover img { transform: scale(1.04); }
+
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+  .facts dl { display: grid; grid-template-columns: max-content 1fr; gap: 8px 18px; margin: 0; background: var(--panel); border: 2px solid var(--line); border-radius: 12px; padding: 22px; }
+  .facts dt { color: var(--gold); font-weight: 700; }
+  .facts dd { margin: 0; color: var(--muted); }
+  .facts .about { background: var(--panel); border: 2px solid var(--line); border-radius: 12px; padding: 22px; color: var(--muted); }
+  .facts .about p { margin: 0 0 12px; }
+
+  footer { padding: 40px 0 60px; text-align: center; color: var(--muted); font-size: 14px; border-top: 2px solid var(--line); }
+  footer .row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; }
+
+  @media (max-width: 720px) { .facts { grid-template-columns: 1fr; } section { padding: 60px 0; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn, .shots img { transition: none; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="over pixel">QUEST FOR THE</div>
+    <h1 class="pixel">ROYAL HEART</h1>
+    <p class="hook">A 16-bit platformer set inside a deck of cards. Slash, craft and draw poker hands from fallen foes to rescue the Queen of Hearts from the Joker.</p>
+    <div class="cta">
+      <!-- TODO: replace # with the Steam store page link, e.g. https://store.steampowered.com/app/YOUR_APP_ID/ -->
+      <a class="btn steam" href="#" id="wishlist">&#9829; Wishlist on Steam</a>
+      <a class="btn ghost" href="#trailer">&#9654; Watch gameplay</a>
+      <!-- TODO: replace # with the Discord invite link -->
+      <a class="btn ghost" href="#">Join the Discord</a>
+    </div>
+  </div>
+  <div class="suits" aria-hidden="true">&#9830; &#9827; &#9829; &#9824;</div>
+</header>
+
+<section id="trailer">
+  <div class="wrap">
+    <h2 class="pixel">GAMEPLAY</h2>
+    <p class="lead">Recorded straight from the game: riding Rubywing over the volcano.</p>
+    <div class="video">
+      <!-- swap in the finished trailer (trailer.webm / .mp4) when it's cut -->
+      <video controls preload="metadata" poster="img/shot-dragon.jpg" playsinline>
+        <source src="video/gameplay.webm" type="video/webm">
+      </video>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <h2 class="pixel">A KINGDOM OF CARDS</h2>
+    <div class="features">
+      <div class="card"><span class="suit" style="color:var(--heart)">&#9829;</span>
+        <h3 class="pixel">Draw poker hands from your foes</h3>
+        <p>Every enemy drops a card. Chain a pair, a straight or a full house mid-fight for big bonuses.</p></div>
+      <div class="card"><span class="suit" style="color:var(--violet)">&#9824;</span>
+        <h3 class="pixel">Nine bosses. Then the Joker.</h3>
+        <p>Kings, golems, a lava matriarch, a sea leviathan and an airship captain, each with telegraphed attacks you can learn and punish. Then the Joker's House of Cards.</p></div>
+      <div class="card"><span class="suit" style="color:var(--green)">&#9827;</span>
+        <h3 class="pixel">Ride a dragon. Joust a knight.</h3>
+        <p>Hatch Rubywing and breathe fire across a volcano, then take the lance against the Jack of Spades in the Royal Tourney.</p></div>
+      <div class="card"><span class="suit" style="color:var(--gold)">&#9830;</span>
+        <h3 class="pixel">Craft your way through</h3>
+        <p>Gather timber, twine and stone. Build ladders, bridges and tools at card tables, and find the hidden Royal Suits in every stage.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="screens">
+  <div class="wrap">
+    <h2 class="pixel">SCREENSHOTS</h2>
+    <div class="shots">
+      <a href="img/shot-joker.jpg"><img src="img/shot-joker.jpg" alt="Fighting the Joker under the Queen's cage; a Full House poker hand bonus" loading="lazy"></a>
+      <a href="img/shot-dragon.jpg"><img src="img/shot-dragon.jpg" alt="Riding the dragon Rubywing over a volcano" loading="lazy"></a>
+      <a href="img/shot-golem.jpg"><img src="img/shot-golem.jpg" alt="Boss fight with the Glacier Golem" loading="lazy"></a>
+      <a href="img/shot-joust.jpg"><img src="img/shot-joust.jpg" alt="Jousting the Jack of Spades in the Royal Tourney" loading="lazy"></a>
+      <a href="img/shot-jungle.jpg"><img src="img/shot-jungle.jpg" alt="Spin attack in the Emberleaf jungle" loading="lazy"></a>
+      <a href="img/shot-desert.jpg"><img src="img/shot-desert.jpg" alt="The Sunscorch Dunes" loading="lazy"></a>
+    </div>
+  </div>
+</section>
+
+<section id="press">
+  <div class="wrap">
+    <h2 class="pixel">PRESS KIT</h2>
+    <div class="facts">
+      <dl>
+        <dt>Title</dt><dd>Quest for the Royal Heart</dd>
+        <dt>Genre</dt><dd>2D action platformer</dd>
+        <dt>Platform</dt><dd>Windows (Steam), Steam Deck planned</dd>
+        <dt>Release</dt><dd>Spring 2027 &middot; demo in Steam Next Fest, February 2027</dd>
+        <dt>Players</dt><dd>1 &middot; two playable heroes</dd>
+        <dt>Controls</dt><dd>Keyboard or gamepad</dd>
+        <dt>Contact</dt><dd><!-- TODO: press email --><a href="#">press email coming soon</a></dd>
+      </dl>
+      <div class="about">
+        <p>The Fleet of Spades has raided the Kingdom of Hearts and carried off the Queen. Jack of Hearts sets out across seven card realms, from diamond caverns and clover forests to a frozen peak, a lava jungle, a sunken reef and an airship armada, to bring her home.</p>
+        <p>At the end of the road waits the Trickster Joker, in a House of Cards built for one last show.</p>
+        <p>Screenshots on this page are free to use for coverage of the game.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <!-- TODO: same links as the hero -->
+      <a href="#">Steam</a><a href="#">Discord</a><a href="#press">Press kit</a>
+    </div>
+    <div>&copy; 2026 Quest for the Royal Heart. Font: Press Start 2P (SIL Open Font License).</div>
+  </div>
+</footer>
+
+</body>
+</html>
