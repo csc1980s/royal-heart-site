@@ -55,6 +55,15 @@
   .video { position: relative; border: 3px solid var(--line); border-radius: 10px; overflow: hidden; background: #000; aspect-ratio: 16/9; }
   .video video, .video iframe { width: 100%; height: 100%; display: block; border: 0; }
 
+  /* ---------- vertical feature clips (the 9:16 social cuts), framed like phones */
+  .clips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: 46px; }
+  .clip { margin: 0; text-align: center; }
+  .clip .phone { border: 3px solid var(--line); border-radius: 18px; overflow: hidden; background: #000; aspect-ratio: 9/16; }
+  .clip video { width: 100%; height: 100%; display: block; object-fit: cover; }
+  .clip figcaption { margin-top: 12px; color: var(--muted); font-size: 15px; }
+  .clip figcaption b { display: block; color: #fff; font-size: 11px; margin-bottom: 6px; }
+  @media (max-width: 720px) { .clips { grid-template-columns: 1fr; max-width: 340px; margin-left: auto; margin-right: auto; } }
+
   .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
   .card { background: var(--panel); border: 2px solid var(--line); border-radius: 12px; padding: 22px; position: relative; }
   .card .suit { position: absolute; top: 12px; right: 16px; font-size: 26px; }
@@ -101,17 +110,30 @@
 <section id="trailer">
   <div class="wrap">
     <h2 class="pixel">TRAILER</h2>
-    <p class="lead">Seven worlds, bosses that fight back, all straight from the game. <a href="https://youtu.be/-Vl3CsXqeA4" target="_blank" rel="noopener">Watch on YouTube</a></p>
+    <p class="lead">Seven worlds, a dragon, a skydive and bosses that fight back, all straight from the game, with its own sound.</p>
+    <!-- Hosted here, not on YouTube: the YouTube upload (youtu.be/-Vl3CsXqeA4) is the older, choppy draft.
+         Once the new trailer is on YouTube, an embed can replace this if the site should load lighter. -->
     <div class="video">
-      <iframe src="https://www.youtube-nocookie.com/embed/-Vl3CsXqeA4?rel=0" title="Quest for the Royal Heart trailer" loading="lazy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
-    <p class="lead" style="margin-top:22px">More gameplay: riding Rubywing over the volcano.</p>
-    <div class="video">
-      <video controls preload="metadata" poster="img/shot-dragon.jpg" playsinline>
-        <source src="video/gameplay.webm" type="video/webm">
+      <video controls preload="metadata" poster="img/poster-trailer.jpg" playsinline>
+        <source src="video/trailer.mp4" type="video/mp4">
       </video>
+    </div>
+
+    <h2 class="pixel" id="in-action" style="margin-top:70px">SEE IT IN ACTION</h2>
+    <p class="lead">Short clips of what makes the game different. Sound on.</p>
+    <div class="clips">
+      <figure class="clip">
+        <div class="phone"><video controls preload="none" poster="img/poster-poker.jpg" playsinline><source src="video/poker-hand.mp4" type="video/mp4"></video></div>
+        <figcaption><b class="pixel">POKER HANDS</b>Every enemy drops a card. Five make a hand: a Royal Straight Flush means 15 seconds invincible and a 1UP.</figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="phone"><video controls preload="none" poster="img/poster-skyfall.jpg" playsinline><source src="video/skyfall.mp4" type="video/mp4"></video></div>
+        <figcaption><b class="pixel">SKYFALL</b>Jump from the Fleet of Spades with three parachutes and a crossbow. The Snip Swifts want your chute.</figcaption>
+      </figure>
+      <figure class="clip">
+        <div class="phone"><video controls preload="none" poster="img/poster-dragon.jpg" playsinline><source src="video/dragon-ride.mp4" type="video/mp4"></video></div>
+        <figcaption><b class="pixel">RUBYWING</b>Ride the Heartwing Dragon over the volcano and burn through the Spades army with Heart-Fire.</figcaption>
+      </figure>
     </div>
   </div>
 </section>
